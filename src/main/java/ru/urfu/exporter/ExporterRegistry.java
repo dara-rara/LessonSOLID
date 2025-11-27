@@ -9,6 +9,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * Реестр экспортеров для управления доступными форматами экспорта
+ *
  * @author Daria
  */
 @Component
@@ -20,6 +22,10 @@ public class ExporterRegistry {
                 .collect(Collectors.toMap(Exporter::getFormat, Function.identity()));
     }
 
+    /**
+     * Возвращает экспортер для указанного формата
+     * @throws IllegalArgumentException если формат не поддерживается
+     */
     public Exporter getExporter(String format) {
         Exporter exporter = exporters.get(format.toLowerCase().trim());
         if (exporter == null) {
@@ -28,6 +34,9 @@ public class ExporterRegistry {
         return exporter;
     }
 
+    /**
+     * Возвращает список поддерживаемых форматов
+     */
     public List<String> getFormats() {
         return new ArrayList<>(exporters.keySet());
     }

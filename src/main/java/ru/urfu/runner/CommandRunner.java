@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * Командный обработчик для работы с документами
  * @author Daria
  */
 @Component
@@ -28,6 +29,9 @@ public class CommandRunner implements CommandLineRunner {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Основной цикл обработки команд
+     */
     @Override
     public void run(String... args) {
         System.out.println("=== Консольное приложение ===");
@@ -47,6 +51,9 @@ public class CommandRunner implements CommandLineRunner {
         }
     }
 
+    /**
+     * Обрабатывает введенную команду
+     */
     private boolean processCommand(String cmd) {
         return switch (cmd) {
             case "create" -> {
@@ -73,6 +80,9 @@ public class CommandRunner implements CommandLineRunner {
         };
     }
 
+    /**
+     * Создает новый документ через ввод в консоли
+     */
     private void createDocument() {
         System.out.print("Введите имя документа: ");
         String name = scanner.nextLine().trim();
@@ -90,6 +100,10 @@ public class CommandRunner implements CommandLineRunner {
         System.out.println("Документ создан и сохранён в памяти");
     }
 
+    /**
+     * Импортирует документ из текстового файла
+     * @throws IOException если файл не найден или недоступен для чтения
+     */
     private void importDocument() {
         System.out.print("Введите путь к txt файлу: ");
         String pathStr = scanner.nextLine();
@@ -106,6 +120,9 @@ public class CommandRunner implements CommandLineRunner {
         }
     }
 
+    /**
+     * Выводит список всех документов
+     */
     private void listDocuments() {
         List<Document> documents = documentService.getDocuments();
         if (documents.isEmpty()) {
@@ -118,6 +135,9 @@ public class CommandRunner implements CommandLineRunner {
         }
     }
 
+    /**
+     * Экспортирует документ в указанный формат
+     */
     private void exportDocument() {
         try {
             System.out.print("Введите номер документа: ");
@@ -149,6 +169,10 @@ public class CommandRunner implements CommandLineRunner {
         }
     }
 
+    /**
+     * Создает путь для сохранения экспортированного документа
+     * @throws RuntimeException если не удалось создать директорию
+     */
     private Path buildOutputPath(Document document, String format) {
         Path outputDir = Path.of(System.getProperty("user.home"), "lessonSOLID");
         try {
@@ -158,4 +182,5 @@ public class CommandRunner implements CommandLineRunner {
         }
         return outputDir.resolve(document.name() + "." + format);
     }
+
 }
