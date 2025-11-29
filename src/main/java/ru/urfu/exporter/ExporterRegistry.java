@@ -1,5 +1,6 @@
 package ru.urfu.exporter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class ExporterRegistry {
     private final Map<String, Exporter> exporters;
 
+    @Autowired
     public ExporterRegistry(List<Exporter> exporterList) {
         this.exporters = exporterList.stream()
                 .collect(Collectors.toMap(Exporter::getFormat, Function.identity()));
