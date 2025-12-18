@@ -1,10 +1,10 @@
-package ru.urfu.document;
+package ru.urfu.model;
 
 /**
  * Документ
  *
  * @param name    Имя
- * @param content текстовое содержимое документа
+ * @param content Текстовое содержимое документа
  */
 public record Document(String name, String content) {
 }
