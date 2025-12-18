@@ -19,6 +19,7 @@ import java.nio.file.Path;
 public class ExportService {
 
     private final ExporterRegistry exporterRegistry;
+    private final Path outputDir = Path.of(System.getProperty("user.home"), "lessonSOLID");
 
     @Autowired
     public ExportService(ExporterRegistry exporterRegistry) {
@@ -42,7 +43,6 @@ public class ExportService {
      * @throws RuntimeException если не удалось создать директорию
      */
     private Path buildOutputPath(Document document, String format) {
-        Path outputDir = Path.of(System.getProperty("user.home"), "lessonSOLID");
         try {
             Files.createDirectories(outputDir);
         } catch (IOException e) {

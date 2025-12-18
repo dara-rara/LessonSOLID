@@ -40,6 +40,6 @@ public class ExporterRegistry {
      * Возвращает список поддерживаемых форматов
      */
     public List<String> getFormats() {
-        return new ArrayList<>(exporters.keySet());
+        return List.copyOf(exporters.keySet());
     }
 }

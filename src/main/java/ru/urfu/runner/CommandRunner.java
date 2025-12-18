@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import ru.urfu.exepction.DocumentNotFoundException;
-import ru.urfu.exporter.ExporterRegistry;
 import ru.urfu.model.Document;
 import ru.urfu.service.DocumentService;
 import ru.urfu.service.ExportService;
 import ru.urfu.service.ImportService;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
@@ -27,7 +27,9 @@ public class CommandRunner implements CommandLineRunner {
     private final Scanner scanner;
 
     @Autowired
-    public CommandRunner(DocumentService documentService, ExporterRegistry exporterRegistry, ImportService importService, ExportService exportService) {
+    public CommandRunner(DocumentService documentService,
+                         ImportService importService,
+                         ExportService exportService) {
         this.documentService = documentService;
         this.importService = importService;
         this.exportService = exportService;
@@ -97,7 +99,9 @@ public class CommandRunner implements CommandLineRunner {
 
         while (true) {
             String line = scanner.nextLine();
-            if (line.isEmpty()) break;
+            if (line.isEmpty()) {
+                break;
+            }
             content.append(line).append(System.lineSeparator());
         }
 
@@ -113,7 +117,7 @@ public class CommandRunner implements CommandLineRunner {
         System.out.print("Введите путь к txt файлу: ");
         String pathStr = scanner.nextLine();
         try {
-            Path path = importService.getImportPath(pathStr);
+            Path path = Path.of(pathStr);
             String content = importService.getContentImportFile(path);
             documentService.createDocument(path.getFileName().toString(), content);
             System.out.println("Документ импортирован успешно");
